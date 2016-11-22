@@ -19,6 +19,7 @@ type Rancher struct {
 	URL       string
 	AccessKey string
 	SecretKey string
+	RegisteryId string
 }
 
 func main() {
@@ -26,6 +27,7 @@ func main() {
 		URL:       os.Getenv("CATTLE_URL"),
 		AccessKey: os.Getenv("CATTLE_ACCESS_KEY"),
 		SecretKey: os.Getenv("CATTLE_SECRET_KEY"),
+		RegisteryIds: os.Getenv("AWS_ECR_LOGIN_REGISTRY_IDS")
 	}
 
 	err := updateEcr(vargs)
@@ -46,7 +48,7 @@ func updateEcr(vargs Rancher) error {
 	fmt.Printf("Updating ECR Credentials\n")
 	ecrClient := ecr.New(session.New())
 
-	resp, err := ecrClient.GetAuthorizationToken(&ecr.GetAuthorizationTokenInput{})
+	resp, err := ecrClient.GetAuthorizationToken(&ecr.GetAuthorizationTokenInput{vargs.RegisteryIds})
 	if err != nil {
 		return err
 	}
