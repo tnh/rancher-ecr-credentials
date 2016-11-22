@@ -19,7 +19,8 @@ type Rancher struct {
 	URL       string
 	AccessKey string
 	SecretKey string
-	RegisteryId string
+	RegisteryIds string
+	
 }
 
 func main() {
